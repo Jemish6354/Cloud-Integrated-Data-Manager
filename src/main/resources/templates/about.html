@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+    <!-- th:replace="base::Layout(~{::#tagid})"  if multiple same name tag via id -->
+     <!-- th:replace="base::Layout(~{::.classid})"  if multiple same name tag via class name-->
+      <div class="host-tag" th:replace="${isActive} ? ~{base::frag1(~{::section} : ~${base::frag2(~{::block})})}"></div>
+<head>
+    <!-- <meta charset="UTF-8"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title th:text="${title}"></title>
+    
+</head>
+<body>
+
+    <section>
+        <h1>here it is about page</h1>
+    </section>
+
+    
+</body>
+</html>
