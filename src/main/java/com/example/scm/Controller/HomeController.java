@@ -10,6 +10,9 @@ import org.springframework.validation.BindingResult;
 import com.example.scm.Dao.UserRepository;
 import com.example.scm.Entities.User;
 import com.example.scm.Helper.Message;
+import com.example.scm.Helper.MessageType;
+import com.example.scm.Services.UserService;
+import com.example.scm.UserForm.UserForm;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -28,102 +31,103 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class HomeController {
 
-    @GetMapping("/hhome")
-    public String getMethodName() {
-        System.out.println("hello world hare krishna!");
-        return "hhome";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        System.out.println("hello world hare krishna!");
-        return "register";
-    }
-    
-
     @Autowired
-    private UserRepository userRepository;
-
-    //for testing
-    @GetMapping("/test")
-    public String test(){
-        User user = new User();
-        user.setName("Jemish");
-        userRepository.save(user);
-
-        return "home";
-    }
+    private UserService userService;
 
     @RequestMapping("/home")
-    public String home(Model m){
-        m.addAttribute("title", "Home - SCM 1.0");
-
+    public String home(){
         return "home.html";
     }
 
     @RequestMapping("/about")
-    public String about(Model m){
-        m.addAttribute("title", "About - SCM 1.0");
-
+    public String about(){
+        System.out.println("about page");
         return "about.html";
     }
 
-    @RequestMapping("/signup")
-    public String signup(Model m, HttpSession session){
-        m.addAttribute("title", "Register - SCM 1.0");
-        m.addAttribute("user", new User());
-
-
-         Object sessionMessage = session.getAttribute("message");
-    
-        if (sessionMessage != null) {
-            //Pass the message to the Model for Thymeleaf to display
-            m.addAttribute("message", session.getAttribute("message")); 
-            
-            // CRITICAL: Remove the message from the session so it doesn't appear on refresh
-            session.removeAttribute("message"); 
-        }
-
-        return "signup.html";
+    @GetMapping("/services")
+    public String servicesPage() {
+        System.out.println("hservices page");
+        return "services";
     }
+    
+    @GetMapping("/contact")
+    public String conatactPage() {
+        System.out.println("contact page");
+        return "contact";
+    }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/register")//==signup
+    public String registerPage(Model model) {
+
+        //black data form
+        // userForm.setName("Jemish"); --> default data
+        UserForm  userForm = new UserForm();
+        model.addAttribute("userForm", userForm);
+        
+        return "register";
+    }
+
+
+
+
+
 
 
     //@PostMapping("/do_registration")
     @RequestMapping(value="/do_registration", method = RequestMethod.POST)
-    public String registeringUser(@Valid @ModelAttribute("user") User user, BindingResult result, @RequestParam(value="agreement", defaultValue = "false") Boolean agreement, Model m, HttpSession session ) {
-        
-        try{
+    public String registeringUser(@Valid @ModelAttribute UserForm userForm, BindingResult result, HttpSession session) {
+        System.out.println("processing registration");
 
-            if(!agreement){
-                System.out.println("You have not agreed the terms and conditions");
-                throw new Exception("You have not agreed the terms and conditions");
-            }
-
-            if(result.hasErrors()){
-                System.out.println("Validation Errors: " + result.getAllErrors());
-                m.addAttribute("user", user);
-                return "signup";
-            }
-            //console print
-            System.out.println("Agreement " + agreement);
-            System.out.println("User " + user);
-
-            //User result =
-            this.userRepository.save(user);
-            m.addAttribute("user", new User());
-            session.setAttribute("message", new Message("successfully registeered !!", "alert-success"));
-            //session.removeAttribute("message");
-            return "signup.html";
-
-        } catch(Exception e){
-            e.printStackTrace();
-            m.addAttribute("user", user);
-            session.setAttribute("message", new Message("something went wrong !! " + e.getMessage(), "alert-danger"));
-            return "signup.html";
-
+        if(result.hasErrors()){
+            return "register";
         }
+        
+        // fetch the data
+        // validate the form
+        // save to db
+        // message = "Registration successful"
+        // redirect login page
 
-        //return "signup.html";
+        // step1 fetch the data via ModelAttribute
+        // Step2 validate the form
+        // pending
+        
+        // step3 save to db
+        // userForm -> user
+   
+        //does not take default value
+        // User user = User.builder()
+        //     .name(userForm.getName())
+        //     .email(userForm.getEmail())
+        //     .password(userForm.getPassword())
+        //     .about(userForm.getAbout())
+        //     .phoneNumber(userForm.getPhoneNumber())
+        //     .profilePic("")
+        //     .build();
+        User user = new User();
+        user.setName(userForm.getName());
+        user.setEmail(userForm.getEmail());
+        user.setPassword(userForm.getPassword());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setAbout(userForm.getAbout());
+        user.setProfilePic("http://dummoyurl.com");
+        
+
+        User savedUser = userService.saveUser(user);
+        System.out.println("saved user");
+
+        // setp4 show success message via HttpSession
+        Message message = Message.builder().content("Registration Sucessfully.").type(MessageType.green).build();
+        session.setAttribute("message", message);
+
+        //step5 redirect login page
+        return "redirect:/register";
     }
     
 

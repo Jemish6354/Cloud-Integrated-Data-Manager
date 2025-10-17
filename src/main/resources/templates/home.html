@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="~{base::parent(~{::section}, ~{::title},~{::script})}">
+    <!-- th:replace="base::Layout(~{::#tagid})"  if multiple same name tag via id -->
+     <!-- th:replace="base::Layout(~{::.classid})"  if multiple same name tag via class name-->
+      <!-- <div class="host-tag" th:replace="${isActive} ? ~{base::frag1(~{::section} : ~${base::frag2(~{::block})})}"></div> -->
 <head>
     <!-- <meta charset="UTF-8"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title th:text="${title}"></title>
+    <title>Home Page</title>
     
 </head>
 <body>
 
-    <section class="banner d-flex justify-content-center align-items-center">
-        <div class="text-center">
-            <h1 class="font-weight-bold">Smart Contact Manager</h1>
-            <p>Start collecting your contacts in very smarter way. we provide very efficient way of handling it.</p>
-            <button class="btn bg-primary btn-lg text-white">Get Start</button>
+    <script>
+        console.log("Home Page");
+    </script>
 
-        </div>
-
+    <section>
+        <h1>Welcome to home page</h1>
     </section>
 
     
