@@ -24,15 +24,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 
-
-
-
-
 @Controller
 public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping("/")
+    public String index(){
+        return "redirect:/home";
+    }    
 
     @RequestMapping("/home")
     public String home(){
