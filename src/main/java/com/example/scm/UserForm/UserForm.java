@@ -17,14 +17,14 @@ import lombok.Setter;
 public class UserForm {
 
     @NotBlank(message = "Name field is required")
-    @Size(min=3, max=20, message = "character limit is between 3 to 20 (both include)")
+    @Size(min=1, max=20, message = "character limit is between 3 to 20 (both include)")
     private String name;
 
     @Email(message="Invalid Email Address")
     private String email;
 
     @NotBlank(message="Password is required")
-    @Size(min=6, max=20, message = "character limit is between 6 to 20 (both include)")
+    @Size(min=1, max=20, message = "character limit is between 6 to 20 (both include)")
     private String password;
     private String phoneNumber;
 
