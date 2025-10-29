@@ -27,18 +27,22 @@ import lombok.Setter;
 public class Contact {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int cid;
+    // @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
     
     private String name;
-    private String secondName;
     private String email;
-    private String work;
-    private String phone;
-    private String image;
-
+    private String phoneNumber;
+    private String address;
+    private String picture;
     @Column(length = 500)
     private String description;
+    private boolean favourite = false;
+    private String websiteLink;
+    private String linkedinLink;
+
+    private String cloudinaryImagePublicId;
+
 
 
     @ManyToOne

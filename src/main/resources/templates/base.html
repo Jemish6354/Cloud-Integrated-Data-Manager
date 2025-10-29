@@ -15,8 +15,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" th:href="@{'https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css'}"  />
-    
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css}" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" th:href="@{'/css/output.css'}" />
+    <link rel="stylesheet" th:href="@{css/style.css}">
 
     
     <title data-th-replace="${title}"></title>
@@ -26,23 +28,32 @@
         
 
         <!-- navbar starts -->
-        <div th:replace="~{navbar :: fragnavbar}"></div>
+         <div th:if="${loggedInUser}">
+            <div th:replace="~{user/user_navbar :: user-navbar}"></div>
+         </div>
 
+         <div th:unless="${loggedInUser}">
+            <div th:replace="~{navbar :: fragnavbar}"></div>
+         </div>
         <!-- navbar ends -->
+
+
 
         
         <div class="p-4 h-screen w-full" >
             <section th:replace="${content}"></section>
         </div>
 
-        <footer class="pt-4">Footer: Learn Code With Jemish</footer>
+        <th:block th:replace="${script}"></th:block>
+
+        <!-- <footer class="pt-4">Footer: Learn Code With Jemish</footer> -->
 
         
 
-        <!-- <link rel="stylesheet" th:href="@{css/style.css}">
-        <script th:src="@{js/script.js}"></script> -->
+        
+        <script th:src="@{'/js/script.js'}"></script>
 
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+        <script th:src="@{https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js}"></script>
     
     
 </body>
