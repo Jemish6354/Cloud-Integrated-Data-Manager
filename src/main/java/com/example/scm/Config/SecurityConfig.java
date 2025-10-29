@@ -38,6 +38,10 @@ public class SecurityConfig {
     // return inMemoryUserDetailsManager;
     // }
 
+    //
+    @Autowired
+    private OAuthAuthenticationSuccessHandler handler;
+
     // method2 login via database (dao authentication provider)
     @Autowired
     private SecurityCustomUserDetailService userDetailsService;
@@ -71,9 +75,9 @@ public class SecurityConfig {
         httpSecurity.formLogin(formLogin -> {
             formLogin.loginPage("/login");
             formLogin.loginProcessingUrl("/authenticate");
-            formLogin.successForwardUrl("/user/dashboard");
+            formLogin.successForwardUrl("/user/profile");
             // formLogin.failureForwardUrl("/login?error=true");
-            formLogin.defaultSuccessUrl("/user/dashboard");
+            formLogin.defaultSuccessUrl("/user/profile");
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
 
@@ -104,6 +108,14 @@ public class SecurityConfig {
         httpSecurity.logout(logoutForm -> {
             logoutForm.logoutUrl("/do-logout");
             logoutForm.logoutSuccessUrl("/login?logout=true");
+        });
+
+        // oauth configuration
+
+        httpSecurity.oauth2Login(oauth ->{
+            oauth.loginPage("/login");
+            oauth.successHandler(handler);        
+            
         });
 
         return httpSecurity.build();

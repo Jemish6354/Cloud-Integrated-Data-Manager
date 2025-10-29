@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html 
+    lang="en" 
+    xmlns:th="http://www.thymeleaf.org" 
+    th:replace="~{base::parent(~{::#content}, ~{::title},~{::script})}">
+    <!-- th:replace="base::Layout(~{::#tagid})"  if multiple same name tag via id -->
+     <!-- th:replace="base::Layout(~{::.classid})"  if multiple same name tag via class name-->
+      <!-- <div class="host-tag" th:replace="${isActive} ? ~{base::frag1(~{::section} : ~${base::frag2(~{::block})})}"></div> -->
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- <meta charset="UTF-8"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title th:text="${loggedInUser.name}+' | SCM2'"></title>
+    
 </head>
 <body>
-    <h1>this is user profile page</h1>
+
+ 
+
+    
+    <div id="content" >
+
+        <!-- sidebar starts -->
+        <!-- only when user loggedin -->
+        <div th:if="${loggedInUser}">
+            <div th:replace="~{user/sidebar :: sidebar}"></div>
+        </div>
+        <!-- sidebar ends -->
+
+        <div class="sm:pl-64 pt-20">
+            <div class="flex justify-center flex-col items-center">
+                <h1 class="text-5xl">Welcome to profile page</h1>
+                <h1>hare krishana hare krishna krishna krishna hare hare hare ram hare ram ram ram hare hare</h1>
+            </div>
+        </div>
+        
+    </div>
+
+ 
+
+    <script>
+        console.log("this is a profile Page");
+    </script>
+
     
 </body>
 </html>
