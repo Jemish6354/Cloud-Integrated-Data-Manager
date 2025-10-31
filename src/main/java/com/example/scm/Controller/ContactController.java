@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.scm.Entities.Contact;
 import com.example.scm.Entities.User;
+import com.example.scm.Helper.AppConstants;
 import com.example.scm.Helper.Helper;
 import com.example.scm.Helper.Message;
 import com.example.scm.Helper.MessageType;
@@ -22,6 +24,7 @@ import com.example.scm.Services.ContactService;
 import com.example.scm.Services.ImageService;
 import com.example.scm.Services.UserService;
 import com.example.scm.UserForm.ContactForm;
+import com.example.scm.UserForm.ContactSearchFrom;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -124,22 +127,74 @@ public class ContactController {
         
         return "redirect:/user/contacts/add";
     }
+
     
     // view contact
     @RequestMapping
-    public String viewContacts(Model model, Authentication authentication) {
+    public String viewContacts(
+        @RequestParam(value = "page", defaultValue = "0") int page,
+        @RequestParam(value = "size", defaultValue = AppConstants.PAGE_SIZE + "") int size,
+        @RequestParam(value = "sortBy", defaultValue = "name" ) String sortBy,
+        @RequestParam(value = "direction", defaultValue = "asc") String direction,
+        Model model, Authentication authentication) {
 
         // load all the user contacts
 
         String username = Helper.getEmailOfLoggedInUser(authentication);
         User user = userService.getUserByEmail(username);
 
-        List<Contact> contacts = contactService.getByUser(user);
-        model.addAttribute("contacts", contacts);
+        Page<Contact> pageContact = contactService.getByUser(user, page, size, sortBy, direction);
+        // pageContact.
+        model.addAttribute("pageContact", pageContact);
+        model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
+
+         model.addAttribute("contactSearchForm", new ContactSearchFrom());
 
 
         return "user/contacts";
     }
+
+    @RequestMapping(value="/search", method=RequestMethod.GET)
+    public String searchHandler(
+            @ModelAttribute ContactSearchFrom contactSearchFrom,
+            
+            @RequestParam(value="size", defaultValue = AppConstants.PAGE_SIZE + "") int size,
+            @RequestParam(value="page", defaultValue = "0") int page,
+            @RequestParam(value="sortBy", defaultValue = "name") String sortBy,
+            @RequestParam(value="order", defaultValue = "asc") String direction,
+            Model model,
+            Authentication authentication
+            
+            ){
+
+        logger.info("field : {} and keyword : {}",contactSearchFrom.getField(), contactSearchFrom.getValue());
+
+        // contactService.search();
+
+        String username = Helper.getEmailOfLoggedInUser(authentication);
+        var user = userService.getUserByEmail(username);
+
+
+            
+        Page<Contact> pageContact = null;
+        if(contactSearchFrom.getField().equalsIgnoreCase("name")){
+            pageContact = contactService.searchByName(contactSearchFrom.getValue(), size, page, sortBy, direction, user);
+        } else if(contactSearchFrom.getField().equalsIgnoreCase("email")){
+            pageContact = contactService.searchByEmail(contactSearchFrom.getValue(), size, page, sortBy, direction, user);
+        } else if(contactSearchFrom.getField().equalsIgnoreCase("phone")){
+            pageContact = contactService.searchByPhoneNumber(contactSearchFrom.getValue(), size, page, sortBy, direction, user);
+        } 
+        
+        logger.info("pageContact : {}", pageContact);
+        model.addAttribute("contactSearchForm", contactSearchFrom);
+        model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
+        model.addAttribute("pageContact", pageContact);
+
+    
+
+        return "user/search";
+    }
+    
     
     
 }

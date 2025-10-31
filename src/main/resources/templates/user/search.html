@@ -9,7 +9,7 @@
 <head>
     <!-- <meta charset="UTF-8"> -->
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>All Your Contacts</title>
+    <title>Search contacts</title>
     
 </head>
 <body>
@@ -27,11 +27,13 @@
         <!-- sidebar ends -->
 
         <div class="sm:pl-64 pt-20">
-            <div class="">
-                <h1 class="text-3xl text-center">All Your Contacts</h1>
-                <h1 class="text-center">List of Contacts</h1>
+            <div class="flex justify-center flex-col items-center">
+                <h1 class="text-5xl">Search Results</h1>
+                <p th:text="${pageContact.totalElements} + ' results founds'"></p>
+                
 
-                <div class="contacts_container p-5">
+            </div>
+            <div class="contacts_container p-5">
 
                     <div class="relative  overflow-x-auto shadow-md sm:rounded-lg">
                         
@@ -45,7 +47,7 @@
                              <div>
                                 <!-- <label for="countries_disabled" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label> -->
                                 <select 
-                                    name="field"
+                                    
                                     th:field="*{field}"
 
                                     id="countries_disabled" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -67,8 +69,7 @@
                                 </div>
                                 <input 
                                     type="text"
-                                    th:field="*{value}"
-                                    
+                                    th:field="*{value}" 
                                     id="table-search-users" 
                                     class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                     placeholder="Search for users">
@@ -143,9 +144,7 @@
                         </table>
 
                         <!-- pagination component -->
-                         <div 
-                            th:if="${pageContact.totalElements > 0}"
-                            class="pagnation_container bg-white p-5 text-center">
+                         <div th:if="${pageContact.totalElements > 0}" class="pagnation_container bg-white p-5 text-center">
                             <nav aria-label="Page navigation example">
                                 <ul class="inline-flex -space-x-px text-base h-10">
 
@@ -153,7 +152,7 @@
                                     <li th:unless="${pageContact.first}">
                                         <!-- th:href="@{'/user/contacts?size='+${pageSize}+'&page='+${pageContact.number-1} }" -->
                                         <a
-                                            th:href="@{/user/contacts(size=${pageSize}, page=${pageContact.number - 1})}"
+                                            th:href="@{/user/contacts/search(size=${pageSize}, page=${pageContact.number - 1}, field=${contactSearchForm.field}, value=${contactSearchForm.value})}"
                                             href="#"
                                             class="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                                 Previous</a>
@@ -164,7 +163,7 @@
                                     <li th:each="index : ${#numbers.sequence(0,pageContact.totalPages-1)}">
                                         <a 
                                             
-                                            th:href="@{'/user/contacts?size='+${pageSize}+'&page='+${index}}"
+                                            th:href="@{'/user/contacts/search?size='+${pageSize}+'&page='+${index}+'&field='+${contactSearchForm.field}+'&value='+${contactSearchForm.value}}"
                                             th:classappend="${index==pageContact.number? 'bg-blue-200' : 'bg-white'}"
                                             class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                             <span th:text="${index + 1}"></span>
@@ -176,7 +175,7 @@
                                     <li th:unless="${pageContact.last}">
                                         <!-- th:href="@{'/user/contacts?size='+${pageSize}+'&page='+${pageContact.number+1}}" -->
                                         <a  
-                                            th:href="@{/user/contacts(size=${pageSize}, page=${pageContact.number + 1})}"
+                                            th:href="@{/user/contacts/search(size=${pageSize}, page=${pageContact.number + 1}, field=${contactSearchForm.field}, value=${contactSearchForm.value})}"
                                             href="#"
                                             class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                                 Next</a>
@@ -186,13 +185,12 @@
                             </nav>
                          </div>
 
-                            <h1 
+                         <h1 
                             class="text-5xl text-center bg-white p-4" 
                             th:if="${pageContact.totalElements <= 0}">No Result Found</h1>
                     </div>
 
                 </div>
-            </div>
         </div>
         
     </div>
@@ -200,7 +198,7 @@
  
 
     <script>
-        console.log("this is a contact Page");
+        console.log("this is a dashboard Page");
     </script>
 
     
