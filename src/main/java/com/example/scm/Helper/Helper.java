@@ -55,4 +55,12 @@ public class Helper {
         
     }
 
+
+    public static String getLinkForEmailVarification(String emailToken){
+
+        String link = "http://localhost:8080/auth/varify-email?token=" + emailToken;
+
+        return link;
+
+    }
 }

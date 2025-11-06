@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import com.example.scm.Dao.UserRepository;
 import com.example.scm.Entities.User;
 import com.example.scm.Helper.AppConstants;
+import com.example.scm.Helper.Helper;
 import com.example.scm.Helper.ResourceNotFoundException;
+import com.example.scm.Services.EmailService;
 import com.example.scm.Services.UserService;
 
 @Service
@@ -24,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -41,7 +46,18 @@ public class UserServiceImpl implements UserService {
         user.setRoleList(List.of(AppConstants.ROLE_USER));
         logger.info(user.getProvider().toString());
 
-        return userRepository.save(user);
+        
+
+        String emailToken = UUID.randomUUID().toString();
+        user.setEmailToken(emailToken);
+        User savedUser =  userRepository.save(user);
+        
+        String emailLink = Helper.getLinkForEmailVarification(emailToken);
+        emailService.sendEmail(savedUser.getEmail(), "Verify Account : Email Contact Manager", emailLink);
+
+        return savedUser;
+
+
        
     }
 
@@ -62,8 +78,8 @@ public class UserServiceImpl implements UserService {
         user2.setPhoneNumber(user.getPhoneNumber());
         user2.setProfilePic(user.getProfilePic());
         user2.setEnabled(user.isEnabled());
-        user2.setEmailVarified(user.isEmailVarified());
-        user2.setPhoneVarified(user.isPhoneVarified());
+        user2.setEmailVerified(user.isEmailVerified());
+        user2.setPhoneVerified(user.isPhoneVerified());
         user2.setProvider(user.getProvider());
         user2.setProviderUserId(user.getProviderUserId());
 

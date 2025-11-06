@@ -118,6 +118,8 @@ public class HomeController {
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setAbout(userForm.getAbout());
         user.setProfilePic("http://dummoyurl.com");
+
+        user.setEnabled(false);
         
 
         User savedUser = userService.saveUser(user);

@@ -1,6 +1,5 @@
 package com.example.scm.Controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.scm.Entities.Contact;
