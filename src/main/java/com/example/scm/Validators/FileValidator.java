@@ -1,10 +1,5 @@
 package com.example.scm.Validators;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.ConstraintValidator;

@@ -2,7 +2,6 @@ package com.example.scm.Entities;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,11 +55,11 @@ public class User implements UserDetails  {
    // Information
     @Builder.Default
     @Getter(value = AccessLevel.NONE) // no auto have to do manual
-    private boolean enabled = true;
+    private boolean enabled = false;
     @Builder.Default
-    private boolean emailVarified = false;
+    private boolean emailVerified = false;
     @Builder.Default
-    private boolean phoneVarified = false;
+    private boolean phoneVerified = false;
 
     @Builder.Default
     @Enumerated(value = EnumType.STRING)
@@ -80,6 +79,10 @@ public class User implements UserDetails  {
     @ElementCollection (fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roleList = new ArrayList<>();
+
+    
+    private String emailToken;
+    // Link: http://localhost:8080/auth/emailToken
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -104,6 +107,7 @@ public class User implements UserDetails  {
 
     @Override
     public boolean isEnabled(){
+        
         return this.enabled;
     }
 

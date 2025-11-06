@@ -46,6 +46,9 @@ public class SecurityConfig {
     @Autowired
     private SecurityCustomUserDetailService userDetailsService;
 
+    @Autowired
+    private AuthFailureHandler authFailureHandler;
+
     // configuration of authentication provider for spring security
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -80,6 +83,7 @@ public class SecurityConfig {
             formLogin.defaultSuccessUrl("/user/profile");
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
+            formLogin.failureHandler(authFailureHandler);
 
             // formLogin.failureHandler(new AuthenticationFailureHandler() {
 
