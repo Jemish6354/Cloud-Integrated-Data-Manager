@@ -725,6 +725,18 @@ video {
   margin-top: 2rem;
 }
 
+.mt-16 {
+  margin-top: 4rem;
+}
+
+.mb-16 {
+  margin-bottom: 4rem;
+}
+
+.mt-20 {
+  margin-top: 5rem;
+}
+
 .block {
   display: block;
 }
@@ -1252,6 +1264,10 @@ video {
   padding-top: 1rem;
 }
 
+.pt-40 {
+  padding-top: 10rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -1567,6 +1583,10 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:ml-64 {
+    margin-left: 16rem;
+  }
+
   .sm\:hidden {
     display: none;
   }
