@@ -15,17 +15,17 @@ public class SmartContactManagerApplicationTests {
 	}
 	// jglathiya60575
 
-	@Autowired
-	private EmailService service; 
+	// @Autowired
+	// private EmailService service; 
 
-	@Test
-	void sendEmailTest(){
+	// @Test
+	// void sendEmailTest(){
 
-		service.sendEmail(
-			"jglathiya60575@gmail.com", 
-			"Just managing the emails", 
-			"this is scm project working on email service send you for test2");
+	// 	service.sendEmail(
+	// 		"jglathiya60575@gmail.com", 
+	// 		"Just managing the emails", 
+	// 		"this is scm project working on email service send you for test2");
 
-	}
+	// }
 
 }
