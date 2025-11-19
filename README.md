@@ -1,4 +1,4 @@
-Features of SCM
+Features
 1. User Signup with email and password
 2. Verify account using email verification link
 3. User signup with google and github
