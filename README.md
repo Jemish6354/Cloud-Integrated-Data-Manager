@@ -1,4 +1,4 @@
-Features
+##Features
 1. User Signup with email and password
 2. Verify account using email verification link
 3. User signup with google and github
@@ -15,7 +15,7 @@ Features
 14. Export the contact data to excel
 15. Mark favorite contact
 
-Technologies
+##Technologies
 1. Latest Spring boot
 2. Spring Framework
 3. Spring MVC
